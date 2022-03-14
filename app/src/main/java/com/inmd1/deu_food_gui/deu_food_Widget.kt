@@ -29,7 +29,7 @@ class deu_food_Widget : AppWidgetProvider() {
             val information_re = Request.Builder().url("https://smart.deu.ac.kr/m/sel_dfood?date=" + format_api.format(date) + "&gubun1=1&gubun2=2").build()
                     client.newCall(Sudeokjeon_re).enqueue(object : Callback {
                         override fun onFailure(call: Call, e: IOException) {
-                            TODO("Not yet implemented")
+                            println(e)
                         }
                         override fun onResponse(call: Call, response: Response) {
                             val json = response.body?.string()
@@ -44,7 +44,7 @@ class deu_food_Widget : AppWidgetProvider() {
                     })
                     client.newCall(information_re).enqueue(object : Callback {
                         override fun onFailure(call: Call, e: IOException) {
-                            TODO("Not yet implemented")
+                            println(e)
                         }
                         override fun onResponse(call: Call, response: Response) {
                             val json = response.body?.string()
@@ -63,13 +63,19 @@ class deu_food_Widget : AppWidgetProvider() {
 
                             val widget  = RemoteViews(context.packageName, R.layout.deu_food__widget)
                             widget.setTextViewText(R.id.update_output, format_update.format(date))
-                            widget.setRemoteAdapter(R.id.info, inserviceIntent)
-                            widget.setOnClickPendingIntent(R.id.App_start1, deu20(context))
-                            widget.setOnClickPendingIntent(R.id.App_start2, attendance(context))
-                            widget.setOnClickPendingIntent(R.id.button_refresh, pendingIntent)
-                            widget.setRemoteAdapter(R.id.sudack, suserviceIntent)
-                            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.info);
-                            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.sudack);
+                            if(PreferenceManager().getInt(context,"Widget_add") == 1){
+                                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.info);
+                                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.sudack);
+                            }else{
+                                //처음 초기 설정
+                                widget.setRemoteAdapter(R.id.info, inserviceIntent)
+                                widget.setOnClickPendingIntent(R.id.App_start1, deu20(context))
+                                widget.setOnClickPendingIntent(R.id.App_start2, attendance(context))
+                                widget.setOnClickPendingIntent(R.id.button_refresh, pendingIntent)
+                                widget.setRemoteAdapter(R.id.sudack, suserviceIntent)
+                                //위 초기 설정이 다시 반복하여 성능누수 방지하기 위함
+                                PreferenceManager().setInt(context,"Widget_add",1)
+                            }
                             appWidgetManager.updateAppWidget(appWidgetId, widget)
                         }
                     })
@@ -83,6 +89,7 @@ class deu_food_Widget : AppWidgetProvider() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
+        //버튼을 누루면 동작함
         super.onReceive(context, intent)
         if (intent.action.equals(REFRESH_ACTION)) {
             val extras = intent.getExtras();
@@ -96,7 +103,9 @@ class deu_food_Widget : AppWidgetProvider() {
     }
 
     override fun onDisabled(context: Context) {
-        // Enter relevant functionality for when the last widget is disabled
+        //삭제 되었을때 0으로 세팅을 해서 처음부터 다시 돌아감
+        println("삭제됨")
+        PreferenceManager().setInt(context,"Widget_add",0)
     }
 
     //앱 이동 코드
@@ -109,10 +118,9 @@ class deu_food_Widget : AppWidgetProvider() {
         val intent = Intent(Intent.ACTION_VIEW).setClassName("kr.ac.deu.mobileid","com.lotecs.mobileid.LoginActivity")
         return  PendingIntent.getActivity(context,0,intent, PendingIntent.FLAG_IMMUTABLE)
     }
-
-    //set code
 }
 
+//한번씩 발생하는 함수
 class suRemoteViewsService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent?): RemoteViewsFactory  {
         println("QTEST")
