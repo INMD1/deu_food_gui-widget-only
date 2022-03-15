@@ -27,60 +27,60 @@ class deu_food_Widget : AppWidgetProvider() {
             val client = OkHttpClient()
             val Sudeokjeon_re = Request.Builder().url("https://smart.deu.ac.kr/m/sel_dfood?date=" + format_api.format(date) + "&gubun1=1&gubun2=1").build()
             val information_re = Request.Builder().url("https://smart.deu.ac.kr/m/sel_dfood?date=" + format_api.format(date) + "&gubun1=1&gubun2=2").build()
-                    client.newCall(Sudeokjeon_re).enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {
-                            println(e)
-                        }
-                        override fun onResponse(call: Call, response: Response) {
-                            val json = response.body?.string()
-                            if(json != "{}"){
-                                PreferenceManager().setString(context,"Sudeokjeon",json)
-                            }else{
-                                PreferenceManager().setString(context,"Sudeokjeon","null")
-                            }
-                            val widget  = RemoteViews(context.packageName, R.layout.deu_food__widget)
-                            appWidgetManager.updateAppWidget(appWidgetId, widget)
-                        }
-                    })
-                    client.newCall(information_re).enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {
-                            println(e)
-                        }
-                        override fun onResponse(call: Call, response: Response) {
-                            val json = response.body?.string()
-                            if(json != "{}"){
-                                PreferenceManager().setString(context,"information",json)
-                            }else{
-                                PreferenceManager().setString(context,"information","null")
-                            }
-                            val inserviceIntent = Intent(context, inRemoteViewsService::class.java)
-                            val suserviceIntent = Intent(context, suRemoteViewsService::class.java)
+            client.newCall(Sudeokjeon_re).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    println(e)
+                }
+                override fun onResponse(call: Call, response: Response) {
+                    val json = response.body?.string()
+                    if(json != "{}"){
+                        PreferenceManager().setString(context,"Sudeokjeon",json)
+                    }else{
+                        PreferenceManager().setString(context,"Sudeokjeon","null")
+                    }
+                    val widget  = RemoteViews(context.packageName, R.layout.deu_food__widget)
+                    appWidgetManager.updateAppWidget(appWidgetId, widget)
+                }
+            })
+            client.newCall(information_re).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    println(e)
+                }
+                override fun onResponse(call: Call, response: Response) {
+                    val json = response.body?.string()
+                    if(json != "{}"){
+                        PreferenceManager().setString(context,"information",json)
+                    }else{
+                        PreferenceManager().setString(context,"information","null")
+                    }
+                    val inserviceIntent = Intent(context, inRemoteViewsService::class.java)
+                    val suserviceIntent = Intent(context, suRemoteViewsService::class.java)
 
-                            val refreshIntent = Intent(context, deu_food_Widget::class.java)
-                            refreshIntent.setAction(REFRESH_ACTION)
-                            refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
-                            val pendingIntent = PendingIntent.getBroadcast(context, 0, refreshIntent, PendingIntent.FLAG_IMMUTABLE)
+                    val refreshIntent = Intent(context, deu_food_Widget::class.java)
+                    refreshIntent.setAction(REFRESH_ACTION)
+                    refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
+                    val pendingIntent = PendingIntent.getBroadcast(context, 0, refreshIntent, PendingIntent.FLAG_IMMUTABLE)
 
-                            val widget  = RemoteViews(context.packageName, R.layout.deu_food__widget)
-                            widget.setTextViewText(R.id.update_output, format_update.format(date))
-                            if(PreferenceManager().getInt(context,"Widget_add") == 1){
-                                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.info);
-                                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.sudack);
-                            }else{
-                                //처음 초기 설정
-                                widget.setRemoteAdapter(R.id.info, inserviceIntent)
-                                widget.setOnClickPendingIntent(R.id.App_start1, deu20(context))
-                                widget.setOnClickPendingIntent(R.id.App_start2, attendance(context))
-                                widget.setOnClickPendingIntent(R.id.button_refresh, pendingIntent)
-                                widget.setRemoteAdapter(R.id.sudack, suserviceIntent)
-                                //위 초기 설정이 다시 반복하여 성능누수 방지하기 위함
-                                PreferenceManager().setInt(context,"Widget_add",1)
-                            }
-                            appWidgetManager.updateAppWidget(appWidgetId, widget)
-                        }
-                    })
-                println("TEST")
-            }
+                    val widget  = RemoteViews(context.packageName, R.layout.deu_food__widget)
+                    widget.setTextViewText(R.id.update_output, format_update.format(date))
+                    if(PreferenceManager().getInt(context,"Widget_add") == 1){
+                        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.info);
+                        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.sudack);
+                    }else{
+                        //처음 초기 설정
+                        widget.setRemoteAdapter(R.id.info, inserviceIntent)
+                        widget.setOnClickPendingIntent(R.id.App_start1, deu20(context))
+                        widget.setOnClickPendingIntent(R.id.App_start2, attendance(context))
+                        widget.setOnClickPendingIntent(R.id.button_refresh, pendingIntent)
+                        widget.setRemoteAdapter(R.id.sudack, suserviceIntent)
+                        //위 초기 설정이 다시 반복하여 성능누수 방지하기 위함
+                        PreferenceManager().setInt(context,"Widget_add",1)
+                    }
+                    appWidgetManager.updateAppWidget(appWidgetId, widget)
+                }
+            })
+            println("TEST")
+        }
     }
 
 
@@ -94,10 +94,10 @@ class deu_food_Widget : AppWidgetProvider() {
         if (intent.action.equals(REFRESH_ACTION)) {
             val extras = intent.getExtras();
             if (extras != null) {
-                    val appWidgetManager = AppWidgetManager.getInstance(context)
-                    val thisAppWidget = ComponentName(context.packageName, deu_food_Widget::class.java.getName())
-                    val appWidgetIds: IntArray = appWidgetManager.getAppWidgetIds(thisAppWidget)
-                    onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds)
+                val appWidgetManager = AppWidgetManager.getInstance(context)
+                val thisAppWidget = ComponentName(context.packageName, deu_food_Widget::class.java.getName())
+                val appWidgetIds: IntArray = appWidgetManager.getAppWidgetIds(thisAppWidget)
+                onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds)
             }
         }
     }
