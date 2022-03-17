@@ -40,6 +40,7 @@ class deu_food_Widget : AppWidgetProvider() {
                             }
                             val widget  = RemoteViews(context.packageName, R.layout.deu_food__widget)
                             appWidgetManager.updateAppWidget(appWidgetId, widget)
+                            println("수덕전 정보불려옴")
                         }
                     })
                     client.newCall(information_re).enqueue(object : Callback {
@@ -53,6 +54,7 @@ class deu_food_Widget : AppWidgetProvider() {
                             }else{
                                 PreferenceManager().setString(context,"information","null")
                             }
+                            println("정보관 정보 불려오고 리스트 새로 고침함")
                             val inserviceIntent = Intent(context, inRemoteViewsService::class.java)
                             val suserviceIntent = Intent(context, suRemoteViewsService::class.java)
 
@@ -79,7 +81,6 @@ class deu_food_Widget : AppWidgetProvider() {
                             appWidgetManager.updateAppWidget(appWidgetId, widget)
                         }
                     })
-                println("TEST")
             }
     }
 
@@ -123,14 +124,14 @@ class deu_food_Widget : AppWidgetProvider() {
 //한번씩 발생하는 함수
 class suRemoteViewsService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent?): RemoteViewsFactory  {
-        println("QTEST")
+        println("suRemoteViewsService")
         return widget_list(this.applicationContext)
     }
 }
 
 class inRemoteViewsService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent?): RemoteViewsFactory  {
-        println("QTEST")
+        println("inRemoteViewsService")
         return widget_list_in(this.applicationContext)
     }
 }
