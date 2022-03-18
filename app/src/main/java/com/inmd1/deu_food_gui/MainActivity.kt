@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         val intent = Intent(Intent.ACTION_VIEW).setClassName("kr.mapsco.MobileSystems","kr.mapsco.MobileSystems.MobileSystem")
-        startActivity(intent)
+        startActivity(intent);
         super.onStart()
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
