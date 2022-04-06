@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import okhttp3.*
@@ -22,6 +23,7 @@ class deu_food_Widget : AppWidgetProvider() {
     val format_api = SimpleDateFormat("yyyyMMdd")
     val format_update = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val REFRESH_ACTION = "com.inmd1.deu_food_gui.REFRESH_ACTION"
+
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         appWidgetIds.forEach { appWidgetId ->
             val client = OkHttpClient()
@@ -65,10 +67,6 @@ class deu_food_Widget : AppWidgetProvider() {
 
                             val widget  = RemoteViews(context.packageName, R.layout.deu_food__widget)
                             widget.setTextViewText(R.id.update_output, format_update.format(date))
-                            if(PreferenceManager().getInt(context,"Widget_add") == 1){
-                                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.info);
-                                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.sudack);
-                            }else{
                                 //처음 초기 설정
                                 widget.setRemoteAdapter(R.id.info, inserviceIntent)
                                 widget.setOnClickPendingIntent(R.id.App_start1, deu20(context))
@@ -77,7 +75,6 @@ class deu_food_Widget : AppWidgetProvider() {
                                 widget.setRemoteAdapter(R.id.sudack, suserviceIntent)
                                 //위 초기 설정이 다시 반복하여 성능누수 방지하기 위함
                                 PreferenceManager().setInt(context,"Widget_add",1)
-                            }
                             appWidgetManager.updateAppWidget(appWidgetId, widget)
                         }
                     })
@@ -86,7 +83,7 @@ class deu_food_Widget : AppWidgetProvider() {
 
 
     override fun onEnabled(context: Context) {
-        // Enter relevant functionality for when the first widget is created
+
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -95,10 +92,10 @@ class deu_food_Widget : AppWidgetProvider() {
         if (intent.action.equals(REFRESH_ACTION)) {
             val extras = intent.getExtras();
             if (extras != null) {
-                    val appWidgetManager = AppWidgetManager.getInstance(context)
-                    val thisAppWidget = ComponentName(context.packageName, deu_food_Widget::class.java.getName())
-                    val appWidgetIds: IntArray = appWidgetManager.getAppWidgetIds(thisAppWidget)
-                    onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds)
+                val appWidgetManager = AppWidgetManager.getInstance(context)
+                val thisAppWidget = ComponentName(context.packageName, deu_food_Widget::class.java.getName())
+                val appWidgetIds: IntArray = appWidgetManager.getAppWidgetIds(thisAppWidget)
+                onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds)
             }
         }
     }

@@ -11,6 +11,7 @@
         android:theme="@style/Theme.Deu_food_gui">
         <receiver
             android:name=".deu_food_Widget"
+            android:enabled="true"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
