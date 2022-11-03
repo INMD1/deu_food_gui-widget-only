@@ -21,7 +21,7 @@ import java.util.*
 class deu_food_Widget : AppWidgetProvider() {
     val date = Date()
     val format_api = SimpleDateFormat("yyyyMMdd")
-    val format_update = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    val format_update = SimpleDateFormat("HH:mm:ss")
     val REFRESH_ACTION = "com.inmd1.deu_food_gui.REFRESH_ACTION"
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
@@ -73,8 +73,9 @@ class deu_food_Widget : AppWidgetProvider() {
                                 widget.setOnClickPendingIntent(R.id.App_start2, attendance(context))
                                 widget.setOnClickPendingIntent(R.id.button_refresh, pendingIntent)
                                 widget.setRemoteAdapter(R.id.sudack, suserviceIntent)
-                                //위 초기 설정이 다시 반복하여 성능누수 방지하기 위함
-                                PreferenceManager().setInt(context,"Widget_add",1)
+
+                            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.info);
+                            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.sudack);
                             appWidgetManager.updateAppWidget(appWidgetId, widget)
                         }
                     })
@@ -91,19 +92,17 @@ class deu_food_Widget : AppWidgetProvider() {
         super.onReceive(context, intent)
         if (intent.action.equals(REFRESH_ACTION)) {
             val extras = intent.getExtras();
-            if (extras != null) {
                 val appWidgetManager = AppWidgetManager.getInstance(context)
                 val thisAppWidget = ComponentName(context.packageName, deu_food_Widget::class.java.getName())
                 val appWidgetIds: IntArray = appWidgetManager.getAppWidgetIds(thisAppWidget)
                 onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds)
-            }
         }
     }
 
     override fun onDisabled(context: Context) {
         //삭제 되었을때 0으로 세팅을 해서 처음부터 다시 돌아감
         println("삭제됨")
-        PreferenceManager().setInt(context,"Widget_add",0)
+        //PreferenceManager().setInt(context,"Widget_add",0)
     }
 
     //앱 이동 코드

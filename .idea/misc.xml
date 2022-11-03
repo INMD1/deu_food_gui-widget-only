@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GitHub/deu_food_gui/app/src/main/res/drawable/circle.xml" value="0.1295" />
         <entry key="..\:/GitHub/deu_food_gui/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="..\:/GitHub/deu_food_gui/app/src/main/res/layout/activity_main.xml" value="0.18489583333333334" />
+        <entry key="..\:/GitHub/deu_food_gui/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/GitHub/deu_food_gui/app/src/main/res/layout/deu_food__widget.xml" value="0.5" />
         <entry key="..\:/GitHub/deu_food_gui/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.193" />
         <entry key="..\:/deu_food_gui/app/src/main/res/drawable-v21/app_widget_background.xml" value="0.17" />
         <entry key="..\:/deu_food_gui/app/src/main/res/drawable-v21/app_widget_inner_view_background.xml" value="0.208" />
