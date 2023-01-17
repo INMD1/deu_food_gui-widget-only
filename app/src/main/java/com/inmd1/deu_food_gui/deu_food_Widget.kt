@@ -1,5 +1,6 @@
 package com.inmd1.deu_food_gui
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -24,6 +25,7 @@ class deu_food_Widget : AppWidgetProvider() {
     val format_update = SimpleDateFormat("HH:mm:ss")
     val REFRESH_ACTION = "com.inmd1.deu_food_gui.REFRESH_ACTION"
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         appWidgetIds.forEach { appWidgetId ->
             val client = OkHttpClient()

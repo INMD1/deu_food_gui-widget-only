@@ -16,7 +16,7 @@ class widget_list_in(private val context: Context): RemoteViewsService.RemoteVie
         information = ArrayList()
         var check = PreferenceManager().getString(context, "information")
         //val data = JSONTokener("{\"정보공학관 코너1\":[{\"rk\":null,\"menuDate\":\"2022-03-14\",\"kioskName\":\"정보공학관 코너1\",\"menuName\":\"치즈치킨까스\",\"menuTime\":\"11:00 ~ 15:00\"},{\"rk\":null,\"menuDate\":\"2022-03-14\",\"kioskName\":\"정보공학관 코너1\",\"menuName\":\"치즈치킨까스\",\"menuTime\":\"11:00 ~ 15:00\"}],\"정보공학관 코너3\":[{\"rk\":null,\"menuDate\":\"2022-03-14\",\"kioskName\":\"정보공학관 코너3\",\"menuName\":\"두루치기\",\"menuTime\":\"11:00 ~ 15:00\"},{\"rk\":null,\"menuDate\":\"2022-03-14\",\"kioskName\":\"정보공학관 코너3\",\"menuName\":\"두루치기\",\"menuTime\":\"11:00 ~ 15:00\"}],\"정보공학관 코너4\":[{\"rk\":null,\"menuDate\":\"2022-03-14\",\"kioskName\":\"정보공학관 코너4\",\"menuName\":\"라면\",\"menuTime\":\"11:00 ~ 15:00\"},{\"rk\":null,\"menuDate\":\"2022-03-14\",\"kioskName\":\"정보공학관 코너4\",\"menuName\":\"라면\",\"menuTime\":\"11:00 ~ 15:00\"}]}").nextValue() as JSONObject
-        if(check == "null") {
+        if(check.toString() == null) {
             information?.add(widgetItem("ERROR","주말 또는 운영을 안합니다"))
         }else{
             var data = JSONTokener(PreferenceManager().getString(context, "information")).nextValue() as JSONObject

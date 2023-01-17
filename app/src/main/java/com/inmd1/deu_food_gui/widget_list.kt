@@ -6,6 +6,8 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import org.json.JSONObject
 import org.json.JSONTokener
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class widget_list(private val context: Context): RemoteViewsService.RemoteViewsFactory {
@@ -16,7 +18,7 @@ class widget_list(private val context: Context): RemoteViewsService.RemoteViewsF
         Sudeokjeonlist = ArrayList()
         var check = PreferenceManager().getString(context, "Sudeokjeon")
         //val data = JSONTokener("{\"수덕전 코너3\":[{\"menuDate\":\"2022-03-11\",\"rk\":null,\"menuName\":\"두루치기\",\"kioskName\":\"수덕전 코너3\",\"menuTime\":\"11:00 ~ 15:00\"}],\"수덕전 예비용\":[{\"menuDate\":\"2022-03-11\",\"rk\":null,\"menuName\":\"라면\",\"kioskName\":\"수덕전 예비용\",\"menuTime\":\"11:00 ~ 15:00\"},{\"menuDate\":\"2022-03-11\",\"rk\":null,\"menuName\":\"김밥\",\"kioskName\":\"수덕전 예비용\",\"menuTime\":\"11:00 ~ 15:00\"},{\"menuDate\":\"2022-03-11\",\"rk\":null,\"menuName\":\"김밥&라면\",\"kioskName\":\"수덕전 예비용\",\"menuTime\":\"11:00 ~ 15:00\"}],\"수덕전 코너2\":[{\"menuDate\":\"2022-03-11\",\"rk\":null,\"menuName\":\"치킨마요덮밥\",\"kioskName\":\"수덕전 코너2\",\"menuTime\":\"11:00 ~ 15:00\"}],\"수덕전 코너1\":[{\"menuDate\":\"2022-03-11\",\"rk\":null,\"menuName\":\"정식\",\"kioskName\":\"수덕전 코너1\",\"menuTime\":\"11:00 ~ 15:00\"}]}\n").nextValue() as JSONObject
-        if(check.toString() == "null") {
+        if(check.toString() == null) {
             Sudeokjeonlist?.add(widgetItem("ERROR","주말 또는 운영을 안합니다"))
         }else{
             val data = JSONTokener(PreferenceManager().getString(context, "Sudeokjeon")).nextValue() as JSONObject
