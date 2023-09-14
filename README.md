@@ -13,13 +13,9 @@
 업데이트는 따로 깃허브에 릴리즈로 공지합니다. 위젯 말고는 다른 기능들은 따로 업데이트를 안 해도 안에서 자동으로 <br>
 업데이트되기 때문에 위젯 수정사항 빼고는 자동으로 업데이트가 됩니다.
 
-##레포 분리 안내
-이번에 레포를 분리해서 이 레포는 위젯만 볼수 있습니다. 그래서 원래 앱을 보고 사용하고 싶은 분들은 여기로 오시면 됨니다.
-https://github.com/INMD1/deu_food_gui-full
-
 # 실행화면
 
 |위젯|앱 실행하면 뜨는 것|
 |------|---|
-|![image](https://user-images.githubusercontent.com/87979171/161945339-f8b46b6a-d360-42f7-b1ce-c698a401ec52.png)|이번에 레포를 분리하였습니다. <br>자세한건 위 참조|
+|![image](https://user-images.githubusercontent.com/87979171/161945339-f8b46b6a-d360-42f7-b1ce-c698a401ec52.png)|
 
