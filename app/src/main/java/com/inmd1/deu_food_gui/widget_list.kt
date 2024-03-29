@@ -22,21 +22,17 @@ class widget_list(private val context: Context): RemoteViewsService.RemoteViewsF
             Sudeokjeonlist?.add(widgetItem("ERROR","주말 또는 운영을 안합니다"))
         }else{
             val data = JSONTokener(PreferenceManager().getString(context, "Sudeokjeon")).nextValue() as JSONObject
-            if (data.getString("수덕전 코너2") != "undefind" && data.getString("수덕전 코너2") != null
-                && data.getString("수덕전 코너3") == "undefind" && data.getString("수덕전 코너3") == null) {
-                Sudeokjeonlist?.add(widgetItem("예비용","라면&라면김밥"))
-                Sudeokjeonlist?.add(widgetItem("코너1","정식"))
+            if (data.has("수덕전 코너1") && !data.isNull("수덕전 코너1")) {
+                Sudeokjeonlist?.add(widgetItem("코너1", data.getJSONArray("수덕전 코너1").getJSONObject(0).getString("menuName") ))
+            }
+            if (data.has("수덕전 코너2") && !data.isNull("수덕전 코너2")) {
                 Sudeokjeonlist?.add(widgetItem("코너2", data.getJSONArray("수덕전 코너2").getJSONObject(0).getString("menuName") ))
-            } else if (data.getString("수덕전 코너2") == "undefind" && data.getString("수덕전 코너2") == null
-                && data.getString("수덕전 코너3") != "undefind" && data.getString("수덕전 코너3") != null) {
-                Sudeokjeonlist?.add(widgetItem("예비용","라면&라면김밥"))
-                Sudeokjeonlist?.add(widgetItem("코너1","정식"))
+            }
+            if (data.has("수덕전 코너3") && !data.isNull("수덕전 코너3")) {
                 Sudeokjeonlist?.add(widgetItem("코너3", data.getJSONArray("수덕전 코너3").getJSONObject(0).getString("menuName") ))
-            } else {
-                Sudeokjeonlist?.add(widgetItem("예비용","라면&라면김밥"))
-                Sudeokjeonlist?.add(widgetItem("코너1","정식"))
-                Sudeokjeonlist?.add(widgetItem("코너2", data.getJSONArray("수덕전 코너2").getJSONObject(0).getString("menuName") ))
-                Sudeokjeonlist?.add(widgetItem("코너3", data.getJSONArray("수덕전 코너3").getJSONObject(0).getString("menuName") ))
+            }
+            if (data.has("수덕전 코너4") && !data.isNull("수덕전 코너4")) {
+                Sudeokjeonlist?.add(widgetItem("코너4", data.getJSONArray("수덕전 코너4").getJSONObject(0).getString("menuName") ))
             }
         }
     }

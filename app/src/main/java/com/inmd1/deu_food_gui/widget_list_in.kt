@@ -20,19 +20,19 @@ class widget_list_in(private val context: Context): RemoteViewsService.RemoteVie
             information?.add(widgetItem("ERROR","주말 또는 운영을 안합니다"))
         }else{
             var data = JSONTokener(PreferenceManager().getString(context, "information")).nextValue() as JSONObject
-            if (data.getString("정보공학관 코너1") != "undefind" && data.getString("정보공학관 코너1") != null
-                && data.getString("정보공학관 코너3") == "undefind" && data.getString("정보공학관 코너3") == null) {
+            if (data.has("정보공학관 코너1") && !data.isNull("정보공학관 코너1")) {
                 information?.add(widgetItem("코너1", data.getJSONArray("정보공학관 코너1").getJSONObject(0).getString("menuName") ))
-                information?.add(widgetItem("코너4","라면"))
-            } else if (data.getString("정보공학관 코너1") == "undefind" && data.getString("정보공학관 코너1") == null
-                && data.getString("정보공학관 코너3") != "undefind" && data.getString("정보공학관 코너3") != null) {
-                information?.add(widgetItem("코너3", data.getJSONArray("정보공학관 코너3").getJSONObject(0).getString("menuName") ))
-                information?.add(widgetItem("코너4","라면"))
-            } else {
-                information?.add(widgetItem("코너1", data.getJSONArray("정보공학관 코너1").getJSONObject(0).getString("menuName") ))
-                information?.add(widgetItem("코너3", data.getJSONArray("정보공학관 코너3").getJSONObject(0).getString("menuName") ))
-                information?.add(widgetItem("코너4","라면"))
             }
+            if (data.has("정보공학관 코너2") && !data.isNull("정보공학관 코너2")) {
+                information?.add(widgetItem("코너2", data.getJSONArray("정보공학관 코너2").getJSONObject(0).getString("menuName") ))
+            }
+            if (data.has("정보공학관 코너3") && !data.isNull("정보공학관 코너3")) {
+                information?.add(widgetItem("코너3", data.getJSONArray("정보공학관 코너3").getJSONObject(0).getString("menuName") ))
+            }
+            if (data.has("정보공학관 코너4") && !data.isNull("정보공학관 코너4")) {
+                information?.add(widgetItem("코너4", data.getJSONArray("정보공학관 코너4").getJSONObject(0).getString("menuName") ))
+            }
+
         }
     }
 
